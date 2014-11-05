@@ -24,6 +24,17 @@ import java.util.Scanner;
 public class mainMethods
 {
     /**
+     * Maximum degree (^143...before something something infinity and NaN shows
+     * up everywhere...)
+     */
+    private static final int MaxDegree = 143;
+
+    /**
+     * Minimum degree (linear)
+     */
+    private static final int MinDegree = 1;
+
+    /**
      * X Matrix with the sum of X Values that represent the partial derivatives
      * for each coefficient
      */
@@ -222,7 +233,7 @@ public class mainMethods
             userScn.next();
             Prompt();
         }
-        else if((d = userScn.nextInt()) /*> 4 || d*/ < 1) // super efficient
+        else if((d = userScn.nextInt()) > MaxDegree || d < MinDegree) // super efficient
         {
             Prompt();
         }
@@ -237,7 +248,7 @@ public class mainMethods
      */
     private static void Prompt()
     {
-        System.out.println("Please enter an integer value from 1 to a big number.");
+        System.out.println("Please enter an integer value from " + MinDegree + " to " + MaxDegree + ":");
     }
 
     /**
