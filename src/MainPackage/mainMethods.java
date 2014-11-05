@@ -56,6 +56,11 @@ public class mainMethods
     private static Matrix InverseMatrix;
 
     /**
+     * Contains coefficient values
+     */
+    private static Matrix SolutionMatrix;
+
+    /**
      * Coefficient matrix that represents the coefficients of the best fit line
      * that minimizes deviation distance
      */
@@ -82,8 +87,7 @@ public class mainMethods
      *  change for me...
      * Might not necessarily be the case for other users however (Hi, Mr. Kresser)
      */
-    private static final String InputFilePath = "C:/Users/Joseph/Downloads/GitHub/"
-            + "PolynomialRegression6/src/MainPackage/bestfit_dataset_example.txt";
+    private static final String InputFilePath = "C:\\Users\\Joseph\\Downloads\\GitHub\\PolynomialRegression6\\src\\MainPackage\\file.1.txt";
 
     /**
      * Main entry.
@@ -202,19 +206,22 @@ public class mainMethods
         // This is pathetic, but extremely efficient. I have the Source if you
         // want to see...
         // SOLVES IN SPECIFIED ORDER: X*K = Y and returns K
-        Matrix SolutionMatrix = XMatrix.solve(YMatrix);
+        SolutionMatrix = XMatrix.solve(YMatrix);
 
         // Return Coefficients
         // I dynamically change the coefficient returned based on the index
-        // Essentially I have a program that has a maximum solving capacity of 255
-        // degrees if you wish... But you're limiting till 4 :P
+        // Essentially I have a program that has a maximum solving capacity of 143
         for(int i = 0; i < d + 1; i++)
         {
-            System.out.print((char)((int)'a' + i) + " = " + SolutionMatrix.get(i, 0) + " ");
+            System.out.println((char)((int)'a' + i) + " = " + SolutionMatrix.get(i, 0) + " ");
         }
 
         // Graph Results
         // TODO: IMPLEMENT LATER
+
+        // find R^2 Value
+        System.out.println(FindMeanY(yInputValues));
+        System.out.println(FindR2(yInputValues, xInputValues));
     }
 
     /**
@@ -344,6 +351,76 @@ public class mainMethods
         {
             sum += _y[i] * Math.pow(_x[i], degree);
         }
+        return sum;
+    }
+
+    /**
+     * Find Mean Y Value for finding R Squared value
+     * <B> NOT IMPLEMENTED <B>
+     * @param _y input ys
+     * @return MeanY value
+     */
+    private static double FindMeanY(double[] _y)
+    {
+        double sum = 0;
+        for(int i = 0; i < _y.length; i++)
+        {
+            sum += _y[i];
+        }
+        sum /= _y.length; // average of all y inputs
+
+        double sum2 = 0;
+        for(int j = 0; j < _y.length; j++)
+        {
+            sum2 += Math.pow((sum -= _y[j]), 2); //
+        }
+        sum2 /= _y.length; // standard deviation
+        //sum2 = Math.pow(sum2, 0.5);
+        return sum2;
+    }
+
+    /**
+     * Find R2 Value
+     * <b> NOT WORKING <b>
+     * @param _y input ys
+     * @param _x input x
+     * @return R Squared
+     */
+    private static double FindR2(double[] _y, double[] _x)
+    {
+        double avg = FindMeanY(_y);
+        double sum = 0;
+        double yQuad = 0;
+        // a = SolutionMatrix.get(1, 0);
+        // b = SolutionMatrix.get(2, 0);
+        // find average
+        for(int i = 0; i < _y.length; i ++)
+        {
+            yQuad += Math.pow((_y[i] - avg), 2);
+        }
+
+        double Usefulnum1 = 0;
+        double Usefulnum2 = 0;
+        double Usefulnum3 = 0;
+
+        double[] Equation = new double[d+1];
+
+        // find equation
+        for(int i = 0; i < SolutionMatrix.getColumnDimension(); i++)
+        {
+            //Usefulnum1 = SolutionMatrix.get((SolutionMatrix.getColumnDimension() - 1 - i), 0) * _x[i]; // a...z value
+            for (int jj = d; jj > 0; jj--)
+            {
+                Usefulnum2 = SolutionMatrix.get(SolutionMatrix.getColumnDimension() - jj, 0) * _x[i];
+                Usefulnum3 += Math.pow(_y[i] - Usefulnum2, 2);
+            }
+        }
+        System.out.print(Usefulnum3);
+        for(int i = 0; i < _y.length; i ++)
+        {
+
+        }
+
         return sum;
     }
 }
