@@ -1,0 +1,9 @@
+Input();
+	Get File
+		Read x, read y;
+PopulateXMatrix();
+PopulateYMatrix();
+FindXInverse();
+MultiplyYMatrixByInverse();
+Return and Print a...e
+

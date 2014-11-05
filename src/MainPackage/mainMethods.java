@@ -8,6 +8,7 @@ import Jama.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Scanner;
 
 /**
@@ -22,10 +23,14 @@ import java.util.Scanner;
 
 public class mainMethods
 {
-    private Matrix XMatrix;
-    private Matrix YMatrix;
+    private static Matrix XMatrix;
+    private static Matrix YMatrix;
+    private static Matrix InverseMatrix;
 
-    private Matrix CoefficientMatrix;
+    private static double[] xInputValues;
+    private static double[] yInputValues;
+
+    private static Matrix CoefficientMatrix;
     private static int d;
 
     public static void main(String[] args) throws FileNotFoundException
@@ -59,20 +64,47 @@ public class mainMethods
             input(userScn);
         }
 
+        // Populate X
         /*
-        for(double i : xValues)
+        double[][] asdf = populateXMatrix(xValues); // populated correctedly
+        for(int c = 0; c <= asdf.length; c++)
         {
-            System.out.print(i + " ");
+            for(int r = 0; r <= asdf.length; r++)
+            {
+                System.out.print(asdf[r][c]);
+            }
+            System.out.println();
+        }*/
+        XMatrix = new Matrix(populateXMatrix(xValues));
+
+        // Populate Y
+        /*
+        double[] asdf = populateYMatrix(yValues);
+        for(int r = 0; r < asdf.length; r++)
+        {
+            System.out.print(asdf[r]);
         }
         System.out.println();
-        for(double j : yValues)
+        * */
+        YMatrix = new Matrix(populateYMatrix(yValues), d + 1);
+
+        // Inverse XMatrix
+        InverseMatrix = XMatrix.inverse();
+
+        // Multiply YMatrix by InverseMatrix
+        Matrix ProductMatrix = YMatrix.times(InverseMatrix);
+        //InverseMatrix.times(YMatrix);
+        int a = 97;
+        for(int i = 0; i < d + 1; i++)
         {
-            System.out.print(j + " ");
+            System.out.print((char) (a + i) + " = " + ProductMatrix.get(0, i));
         }
-        */
-        populateXMatrix(xValues);
     }
 
+    /**
+     *
+     * @param userScn
+     */
     private static void input(Scanner userScn)
     {
         System.out.print("Degree value of polynomial? (1-4): ");
@@ -105,25 +137,71 @@ public class mainMethods
         //input(userScn);
     }
 
-    private static void populateXMatrix(ArrayList<Double> _xValues)
+    private static double[][] populateXMatrix(ArrayList<Double> _xValues)
     {
+        xInputValues = new double[_xValues.size()];
+        Iterator<Double> iterator = _xValues.iterator();
+        int i = 0;
+        while(iterator.hasNext())
+        {
+            xInputValues[i] = iterator.next().doubleValue();
+            i++;
+        }
+
         double[][] XArray = new double[d+1][d+1];
         for(int c = 0; c < XArray.length; c++)
         {
-            for(int r = c; r < XArray[c].length; r++)
+            for(int r = 0; r < XArray[c].length; r++)
             {
-                XArray[r][c] = XArray[c][r] = SumX(2*d-r-c, _xValues);
+                XArray[c][r] = SumX(2*d-r-c, xInputValues);
+                //XArray[r][c] = SumX(2*d-r-c, _xValues);
             }
         }
+        return XArray;
     }
 
-    private static double SumX(int degree, ArrayList<Double> _x)
+    private static double SumX(int degree, double[] _x)
     {
         double sum = 0.;
-        for(Double x : _x)
+        for(int i = 0; i < _x.length; i++)
         {
-            sum += Math.pow(x, degree);
+            sum += Math.pow(_x[i], degree);
         }
         return sum;
+    }
+
+    private static double[] populateYMatrix(ArrayList<Double> _yValues)
+    {
+        yInputValues = new double[_yValues.size()];
+        Iterator<Double> iterator = _yValues.iterator();
+        int i = 0;
+        while(iterator.hasNext())
+        {
+            yInputValues[i] = iterator.next().doubleValue();
+            i++;
+        }
+
+        double[] YArray = new double[d+1];
+        for(int r = 0; r < YArray.length; r++)
+        {
+            YArray[r] = SumY(d-r, yInputValues, xInputValues);
+            //XArray[r][c] = SumX(2*d-r-c, _xValues);
+        }
+        return YArray;
+    }
+
+    private static double SumY(int degree, double[] _y, double[] _x)
+    {
+        double sum = 0.;
+        for(int i = 0; i < _y.length; i++)
+        {
+            sum += _y[i] * Math.pow(_x[i], degree);
+        }
+        return sum;
+    }
+
+    private static void MultiplyYbyInverse()
+    {
+
     }
 }
