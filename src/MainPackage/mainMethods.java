@@ -140,7 +140,7 @@ public class mainMethods
 
         // d Input sanitation
         d = 0;
-        while(!(d <= 4 && d >= 1))
+        while(!(/*d <= 4 && */d >= 1))
         {
             input(userScn);
         }
@@ -201,6 +201,9 @@ public class mainMethods
         {
             System.out.print((char)((int)'a' + i) + " = " + SolutionMatrix.get(i, 0) + " ");
         }
+
+        // Graph Results
+        // TODO: IMPLEMENT LATER
     }
 
     /**
@@ -218,7 +221,7 @@ public class mainMethods
             userScn.next();
             inputError();
         }
-        else if((d = userScn.nextInt()) > 4 || d < 1) // super efficient
+        else if((d = userScn.nextInt()) /*> 4 || d*/ < 1) // super efficient
         {
             inputError();
         }
