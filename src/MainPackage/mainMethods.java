@@ -213,17 +213,18 @@ public class mainMethods
     private static void input(Scanner userScn)
     {
         // Prompt
-        System.out.print("Degree value of polynomial? (1-4): ");
+        //System.out.print("Degree value of polynomial? (1-4): ");
+        Prompt();
 
         // Sanitation logic... .next() should catch all
         if(!userScn.hasNextInt())
         {
             userScn.next();
-            inputError();
+            Prompt();
         }
         else if((d = userScn.nextInt()) /*> 4 || d*/ < 1) // super efficient
         {
-            inputError();
+            Prompt();
         }
         else // exits with valid input
         {
@@ -234,9 +235,9 @@ public class mainMethods
     /**
      * Input Error Message
      */
-    private static void inputError()
+    private static void Prompt()
     {
-        System.out.println("Please enter an integer value from 1 to 4.");
+        System.out.println("Please enter an integer value from 1 to a big number.");
     }
 
     /**
