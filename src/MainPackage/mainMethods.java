@@ -88,6 +88,7 @@ public class mainMethods
         * */
         YMatrix = new Matrix(populateYMatrix(yValues), d + 1);
 
+        /*
         // Inverse XMatrix
         InverseMatrix = XMatrix.inverse();
 
@@ -98,6 +99,14 @@ public class mainMethods
         for(int i = 0; i < d + 1; i++)
         {
             System.out.print((char) (a + i) + " = " + ProductMatrix.get(0, i));
+        }
+        * */
+        Matrix SolutionMatrix = XMatrix.solve(YMatrix);
+        //int i = 0;
+        int a = 97;
+        for(int i = 0; i < d + 1; i++)
+        {
+            System.out.print((char) (a + i) + " = " + SolutionMatrix.get(i, 0) + " ");
         }
     }
 
