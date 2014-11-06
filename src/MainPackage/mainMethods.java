@@ -391,6 +391,7 @@ public class mainMethods
         double avg = FindMeanY(_y);
         double sum = 0;
         double yQuad = 0;
+
         // a = SolutionMatrix.get(1, 0);
         // b = SolutionMatrix.get(2, 0);
         // find average
