@@ -220,8 +220,10 @@ public class mainMethods
         // TODO: IMPLEMENT LATER
 
         // find R^2 Value
+        /*
         System.out.println(FindMeanY(yInputValues));
         System.out.println(FindR2(yInputValues, xInputValues));
+        * */
     }
 
     /**
